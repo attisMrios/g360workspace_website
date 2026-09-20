@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://g360workspace.com/sitemap.xml
+Sitemap: https://g360co.com/sitemap.xml

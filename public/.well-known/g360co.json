@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-28",
+  "controlPlane": {
+    "apiUrl": "https://app.g360co.com/api",
+    "tenantDiscoveryTemplate": "/tenant/config/{tenantCode}",
+    "licensingBasePath": "/licensing"
+  },
+  "fallbackApiUrls": [
+    "https://app.g360co.com/api"
+  ],
+  "minSupportedErpVersion": "4.0.0"
+}

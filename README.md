@@ -37,12 +37,12 @@ Abre http://localhost:5180 (usa un puerto libre; 4173 suele estar ocupado por el
 
 ## Firebase Hosting
 
-1. Crea el proyecto en Firebase (ID previsto: `g360workspace`). Si el ID es otro, actualiza `.firebaserc`.
+1. El proyecto de Firebase Hosting es `g360workspace-website` (el ID `g360workspace` ya estaba ocupado).
 2. Inicia sesión y despliega:
 
 ```bash
 firebase login
-firebase use g360workspace
+firebase use g360workspace-website
 firebase deploy --only hosting
 ```
 
