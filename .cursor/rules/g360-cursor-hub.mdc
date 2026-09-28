@@ -1,0 +1,15 @@
+---
+description: Hub Cursor G360 — rules/skills canónicos en G360docs/config-cursor
+alwaysApply: true
+---
+
+# Cursor G360 — configuración central
+
+**Fuente única de rules, skills y planes:** repo `G360docs` → `config-cursor/`.
+
+- Editar reglas y skills **solo** ahí. Los demás repos se enlazan (junction/hardlink) con `config-cursor/otros/link-cursor.ps1`.
+- Skill de documentación: **doc-sync** (`.cursor/skills/doc-sync`).
+- Estándares de producto: `STANDARDS.md` del repo en el que estés (ERP, UpGrow, MaaS). Si hay conflicto, prevalece ese archivo.
+- No inventar flujos (WhatsApp baja/alta, migraciones Prisma, licencias).
+- No commit ni push salvo que el usuario lo pida. No secretos ni `.env` en git.
+- Respuestas al usuario en **español**.

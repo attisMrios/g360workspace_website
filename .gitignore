@@ -35,3 +35,6 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# Cursor: skills se enlazan a G360docs/config-cursor/skills (link-cursor.ps1)
+.cursor/skills/
