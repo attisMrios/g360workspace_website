@@ -1,0 +1,87 @@
+---
+description: Estándares backend Gestion360 — NestJS, Prisma, Zod, envelope API
+alwaysApply: true
+---
+
+# Gestion360 Backend — STANDARDS.md
+
+**Fuente autoritativa:** `Gestion360PH/STANDARDS.md` (v2.8.8). Prevalece sobre cualquier otro doc.
+
+## SaaS 5.0 (resumen)
+
+- Ver regla `saas-platform-5.mdc` y `documentation/backend/SAAS_5.0.md`.
+- Staff = claim `g360Staff`; hub `staff.g360workspace.com`; aprobar cuentas en `/saas-ops`.
+- No redirigir staff a `/cuenta-restringida`; no inventar flujos fuera de la doc SaaS.
+
+## Stack
+
+- NestJS 11, Prisma 5.x, PostgreSQL, **Zod** (única validación de DTOs; no `class-validator`).
+- Firebase Auth: único proveedor de identidad; backend verifica token Admin SDK.
+
+## Arquitectura (DDD)
+
+- **Controllers**: recibir request → validar Zod → delegar servicio → retornar envelope.
+- **Prohibido**: lógica de negocio, cálculos o validaciones complejas en controllers.
+
+## Respuesta API (§4.1) — obligatorio
+
+```typescript
+{ success: boolean; data: T | null; error: { code: string; message: string } | null; meta?: … }
+```
+
+- Nunca devolver arrays/objetos en la raíz.
+- Errores 500 al cliente: mensaje genérico; detalle técnico solo en logs (Correlation ID).
+
+## Validación y mutaciones (§4.2)
+
+- DTOs con Zod (`safeParse` / `createZodDto`).
+- Endpoints críticos POST/PUT: **Idempotency-Key** en header cuando aplique.
+
+## Prisma y BD (§4.3)
+
+- Core financiero: **soft delete** (`deletedAt` / `isActive`), nunca DELETE físico.
+- Multi-tabla: `$transaction` ACID.
+- Concurrencia: optimistic locking con `version` / `updatedAt`.
+- Raw SQL: solo parametrizado (`Prisma.sql`).
+
+## Migraciones — CRÍTICO para agentes
+
+- **Solo** vía CLI: `npx prisma migrate dev --create-only --name descripcion_snake_case` → revisar SQL → `npx prisma migrate deploy` (o `migrate dev` sin reset).
+- **Prohibido** crear a mano `prisma/migrations/YYYYMMDDHHMMSS_*` con timestamp inventado.
+- **Prohibido** auto-confirmar reset / “All data will be lost”; detenerse y pedir confirmación humana.
+- Ver `gestion360ph_backend/docs/MIGRACIONES_PRISMA.md` y §4.3 de STANDARDS.md.
+- Timestamp = reloj real al crear; orden lexicográfico = orden de deploy.
+
+## Archivos (§4.4)
+
+- Binarios: `multipart/form-data` + interceptor multer; **no** base64 en JSON.
+
+## Licenciamiento (§5.1.1)
+
+- Consumo de licencia: decisión en **backend** (guards/servicios).
+- `G360ph` móvil: no consume cupo; ERP sí (`X-Session-Id` para roles licenciados).
+- Nuevos ítems de menú: registrar ID en `src/common/constants/g360co-menu-ids.ts`.
+
+## Menús dinámicos
+
+- IDs de menú deben existir en `G360CO_ALL_MENU_IDS` antes de usarse en perfiles/licencias.
+
+## WhatsApp — baja de avisos
+
+- Mecanismo de producto: placeholder `{{enlaceBaja}}` + `WhatsAppOptOutService` (base `FRONTEND_URL` / `ERP_PUBLIC_BASE_URL`).
+- **No** inventar URLs ni pantallas de baja. Doc: `gestion360ph_backend/docs/WHATSAPP_OPT_OUT_BAJA.md`. Regla scoped: `whatsapp-opt-out-baja.mdc`.
+
+## FCM (ERP web + móvil)
+
+- **ERP web (Gestion360PH):** proyecto fijo `g360co-notify-dispatcher` (`firebaseFcm` + `firebase-messaging-sw.js`). No cambiarlo.
+- **Móvil (G360ph):** proyecto `g360co-fcm-dispatcher` (`FCM_*` en backend).
+- Backend debe tener **ambos**: `FCM_*` (móvil) y `FCM_WEB_*` (notify-dispatcher) para que topics lleguen al navegador.
+- WhatsApp push: topic `whatsapp_messages` + usuario con `whatsappEnabled`.
+
+## Agentes IA — higiene (obligatorio)
+
+- **No commitear** scripts `_tmp-*`, SQL one-off ni herramientas puntuales de BD.
+- Tras usar temporales de prueba/diagnóstico: **eliminarlos**.
+- Solo código de producto, migraciones Prisma CLI, tests del módulo.
+- **No** incluir `.env` ni secretos en commits.
+- Migraciones: ver `backend-prisma-migrations.mdc` + §4.3 STANDARDS (UTF-8 **sin BOM** en `migration.sql`).

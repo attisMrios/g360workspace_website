@@ -1277,6 +1277,76 @@ footer {
   font-weight: 700;
 }
 
+.legal h3 {
+  font-size: 1rem;
+  margin: 16px 0 8px;
+  color: var(--navy);
+}
+
+.legal ol {
+  padding-left: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.legal .table-wrap {
+  overflow-x: auto;
+  margin: 8px 0 16px;
+}
+
+.legal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.legal th,
+.legal td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  color: var(--ink-soft);
+}
+
+.legal th {
+  background: rgba(75, 101, 240, 0.07);
+  color: var(--navy);
+}
+
+.legal .note {
+  border-left: 4px solid var(--primary);
+  background: rgba(75, 101, 240, 0.06);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+  margin: 14px 0;
+}
+
+.legal .doc-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.legal .doc-list li {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+
+.legal .doc-list li span {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.legal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 0.88rem;
+  margin-bottom: 18px;
+}
+
 .error-page {
   min-height: 70vh;
   display: grid;

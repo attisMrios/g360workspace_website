@@ -19,6 +19,7 @@
       "nav.contact": "Contacto",
       "nav.demo": "Solicitar demo",
       "nav.privacy": "Privacidad",
+      "nav.legal": "Legal",
       "hero.kicker": "G360 Workspace 4.0 · by G360co",
       "hero.title": "Un ERP con la contabilidad al centro <em>y la operación en el mismo lugar</em>",
       "hero.lead":
@@ -145,6 +146,7 @@
       "nav.contact": "Contact",
       "nav.demo": "Request demo",
       "nav.privacy": "Privacy",
+      "nav.legal": "Legal",
       "hero.kicker": "G360 Workspace 4.0 · by G360co",
       "hero.title": "An ERP with accounting at the center <em>and operations in the same place</em>",
       "hero.lead":
@@ -301,11 +303,14 @@
     html.lang = lang === "en" ? "en" : "es-CO";
     html.setAttribute("data-lang", lang);
 
-    const title = t(lang, "meta.title");
-    if (title) document.title = title;
+    const isHome = location.pathname === "/" || location.pathname === "/index.html";
+    if (isHome) {
+      const title = t(lang, "meta.title");
+      if (title) document.title = title;
 
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute("content", t(lang, "meta.description"));
+      const desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.setAttribute("content", t(lang, "meta.description"));
+    }
 
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       const key = el.getAttribute("data-i18n");
@@ -378,6 +383,7 @@
       { sel: '.nav-links a[href="/#contacto"], .nav-links a[href="#contacto"], .footer-links a[href="/#contacto"], .footer-links a[href="#contacto"]', key: "nav.contact" },
       { sel: '.nav-cta-desktop, .nav-cta-mobile a, .cta-band .btn-primary[href="/#contacto"], .cta-band .btn-primary[href="#contacto"]', key: "nav.demo" },
       { sel: '.footer-links a[href="/privacidad/"]', key: "nav.privacy" },
+      { sel: '.footer-links a[href="/legal/"]', key: "nav.legal" },
       { sel: ".nav-toggle", key: "nav.menu" },
     ];
     map.forEach(function (item) {

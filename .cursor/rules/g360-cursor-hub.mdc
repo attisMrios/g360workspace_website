@@ -1,5 +1,5 @@
 ---
-description: Hub Cursor G360 — rules/skills canónicos en G360docs/config-cursor
+description: Cursor G360 — fuente única de rules/skills/planes en G360docs
 alwaysApply: true
 ---
 
@@ -10,6 +10,7 @@ alwaysApply: true
 - Editar reglas y skills **solo** ahí. Los demás repos se enlazan (junction/hardlink) con `config-cursor/otros/link-cursor.ps1`.
 - Skill de documentación: **doc-sync** (`.cursor/skills/doc-sync`).
 - Estándares de producto: `STANDARDS.md` del repo en el que estés (ERP, UpGrow, MaaS). Si hay conflicto, prevalece ese archivo.
-- No inventar flujos (WhatsApp baja/alta, migraciones Prisma, licencias).
+- SaaS 5.0: regla `saas-platform-5.mdc` + `documentation/backend/SAAS_5.0.md`.
+- No inventar flujos (WhatsApp baja/alta, migraciones Prisma, licencias, aprobación staff).
 - No commit ni push salvo que el usuario lo pida. No secretos ni `.env` en git.
 - Respuestas al usuario en **español**.

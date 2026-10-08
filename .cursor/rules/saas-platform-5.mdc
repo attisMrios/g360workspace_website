@@ -1,0 +1,34 @@
+---
+description: G360 WorkSpace SaaS 5.0 — staff, hub staff.*, PENDING_REVIEW, catálogo de cuentas
+alwaysApply: true
+---
+
+# SaaS G360 WorkSpace 5.0
+
+**Docs:** `documentation/backend/SAAS_5.0.md` (réplica `gestion360ph_backend/docs/SAAS_5.0.md`). **STANDARDS** §5.1.0.
+
+## Modo
+
+- `SAAS_MODE=platform` → plataforma multi-cuenta. Ausente/`off` → despliegue dedicado v4 (no mezclar workflows).
+- Cuenta por `Host`: `slug.g360workspace.com`. Hub ops: `staff.g360workspace.com` (`staff` es slug **reservado**; `app` sigue reservado).
+
+## Personal G360 (staff)
+
+- Solo claim Firebase `g360Staff: true` (en platform el dominio del correo **no** basta).
+- Alta claim (servidor): `dc exec api node dist/scripts/g360-staff.js grant correo@g360co.com [--allow-unverified]`.
+- Entrar por **`staff.*`**, no por el subdominio del cliente.
+- Login staff → Panel G360 / `/saas-ops`. **No** `/cuenta-restringida`.
+- Staff no consume licencia concurrente del cliente en el hub.
+- Staff sin fila `User` en tenant: perfil/menú hub sintético (API); no inventar “crear usuario staff” en BD cliente.
+
+## Cuentas nuevas
+
+- Registro → `PENDING_REVIEW` → staff aprueba `TRIAL` | `ACTIVE` en Plataforma SaaS.
+- Emergencia: `POST /saas/ops/accounts/:id/activate-key` + `X-G360-Ops-Key`.
+
+## Prohibido (agentes)
+
+- Tratar `@g360co.com` como staff sin claim en platform.
+- Heredar `accountId` de un cliente en el hub por “única sociedad lista”.
+- Redirigir `isStaff` a `/cuenta-restringida`.
+- Inventar flujos de baja WhatsApp / reset Prisma / timestamps de migración inventados.
